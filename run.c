@@ -12,7 +12,23 @@ int main(int argc, char *argv[]) {
         printf(2, "usage: %s prog arg...\n", argv[0]);
         exit();
     }
-
+    char *prog = argv[1];
+    int p[2];
+    pipe(p);
+    if (fork() == 0) {
+        close(0);
+        dup(p[0]);
+        close(p[0]);
+        close(p[1]);
+        char *argv[] = { prog, 0 };
+        exec(prog, argv);
+    }
+    close(p[0]);
+    int i;
+    for (i = 2; i < argc; i++)
+        printf(p[1], "%s\n", argv[i]);
+    close(p[1]);
+    wait();
     exit();
 }
 

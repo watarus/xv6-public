@@ -13,11 +13,15 @@ int main() {
     char buf[BUFLEN];
     int max = 0, min = 0;
     gets(buf, BUFLEN);
-    while (strlen(buf) > 0) {
-        int a = atoi(buf);
-        min = a < min ? a : min;
-        max = a > max ? a : max;
+    if (strlen(buf) > 0) {
+        max = min = atoi(buf);
         gets(buf, BUFLEN);
+        while (strlen(buf) > 0) {
+            int a = atoi(buf);
+            min = a < min ? a : min;
+            max = a > max ? a : max;
+            gets(buf, BUFLEN);
+        }
     }
     printf(1, "min=%d, max=%d\n", min, max);
     exit();
